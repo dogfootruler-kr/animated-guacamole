@@ -1,0 +1,43 @@
+diff --git a/node_modules/expo-dev-menu/android/build.gradle b/node_modules/expo-dev-menu/android/build.gradle
+index 6e0556a..cb256b0 100644
+--- a/node_modules/expo-dev-menu/android/build.gradle
++++ b/node_modules/expo-dev-menu/android/build.gradle
+@@ -68,7 +68,7 @@ def getCurrentFlavor() {
+   Matcher matcher = pattern.matcher(taskRequestName)
+ 
+   if (matcher.find()) {
+-    return matcher.group(1).toLowerCase()
++    return matcher.group(1)
+   }
+   return ""
+ }
+@@ -96,22 +96,22 @@ rootProject.getSubprojects().forEach({ project ->
+       if (!projectProperties.get("reanimated")
+           || (projectProperties.get("reanimated") && projectProperties.get("reanimated").get("enablePackagingOptions"))
+       ) {
+-        def flavorString = getCurrentFlavor()
++        def flavorStringCapitalized = getCurrentFlavor()
+         replaceSoTask.appName = project.getProperties().path
+         replaceSoTask.buildDir = project.getProperties().buildDir
+         def appName = project.getProperties().path
+ 
+         replaceSoTaskDebug.dependsOn(
+-            project.getTasks().getByPath("${appName}:merge${flavorString}DebugNativeLibs"),
+-            project.getTasks().getByPath("${appName}:strip${flavorString}DebugDebugSymbols")
++            project.getTasks().getByPath("${appName}:merge${flavorStringCapitalized}DebugNativeLibs"),
++            project.getTasks().getByPath("${appName}:strip${flavorStringCapitalized}DebugDebugSymbols")
+         )
+-        project.getTasks().getByPath("${appName}:package${flavorString}Debug").dependsOn(replaceSoTaskDebug)
++        project.getTasks().getByPath("${appName}:package${flavorStringCapitalized}Debug").dependsOn(replaceSoTaskDebug)
+ 
+         replaceSoTaskRelease.dependsOn(
+-            project.getTasks().getByPath("${appName}:merge${flavorString}ReleaseNativeLibs"),
+-            project.getTasks().getByPath("${appName}:strip${flavorString}ReleaseDebugSymbols")
++            project.getTasks().getByPath("${appName}:merge${flavorStringCapitalized}ReleaseNativeLibs"),
++            project.getTasks().getByPath("${appName}:strip${flavorStringCapitalized}ReleaseDebugSymbols")
+         )
+-        project.getTasks().getByPath("${appName}:package${flavorString}Release").dependsOn(replaceSoTaskRelease)
++        project.getTasks().getByPath("${appName}:package${flavorStringCapitalized}Release").dependsOn(replaceSoTaskRelease)
+       }
+     }
+   }
